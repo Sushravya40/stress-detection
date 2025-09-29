@@ -147,9 +147,11 @@ def login():
 
 @app.route('/registration', methods=["POST", "GET"])
 def registration():
+    # Allowed email domains for user registration
     allowed_domains = ['@techcorp.com', '@itcompany.com', '@cybertech.org', '@datasci.in', '@qaeng.com']
 
     if request.method == 'POST':
+        # Get form inputs
         username = request.form['username'].strip()
         useremail = request.form['useremail'].strip().lower()
         userpassword = request.form['userpassword'].strip()
@@ -157,23 +159,50 @@ def registration():
         Age = request.form['Age'].strip()
         contact = request.form['contact'].strip()
 
+        # -------------------------
+        # 1️⃣ Check if email domain is allowed
+        # -------------------------
         if not any(useremail.endswith(domain) for domain in allowed_domains):
             flash("❌ Registration allowed only for IT employees with approved email domains.", "danger")
             return redirect("/registration")
 
+        # -------------------------
+        # 2️⃣ Check password confirmation
+        # -------------------------
         if userpassword != conpassword:
             flash("⚠️ Passwords do not match.", "warning")
             return redirect("/registration")
 
-        cur.execute("SELECT * FROM users WHERE Email=%s", (useremail,))
-        existing = cur.fetchone()
-
+        # -------------------------
+        # 3️⃣ Check if user already exists
+        # -------------------------
+        cursor.execute("SELECT * FROM users WHERE Email=%s", (useremail,))
+        existing = cursor.fetchone()
         if existing:
             flash("⚠️ User already registered. Try logging in.", "warning")
             return redirect("/registration")
 
+        # -------------------------
+        # 4️⃣ Register new user
+        # -------------------------
         try:
-            cur.execute(
+            cursor.execute(
+                "INSERT INTO users(Name, Email, Password, Age, Mob) VALUES (%s, %s, %s, %s, %s)",
+                (username, useremail, userpassword, Age, contact)
+            )
+            conn.commit()
+            flash("✅ Registered successfully", "success")
+            return redirect("/login")
+        except Exception as e:
+            conn.rollback()
+            flash(f"❌ Registration failed: {str(e)}", "danger")
+            return redirect("/registration")
+
+    return render_template('registration.html')
+
+
+        try:
+            cursor.execute(
                 "INSERT INTO users(Name, Email, Password, Age, Mob) VALUES (%s, %s, %s, %s, %s)",
                 (username, useremail, userpassword, Age, contact)
             )
