@@ -280,23 +280,6 @@ def registration():
 
     return render_template('registration.html')
 
-
-        try:
-            cursor.execute(
-                "INSERT INTO users(Name, Email, Password, Age, Mob) VALUES (%s, %s, %s, %s, %s)",
-                (username, useremail, userpassword, Age, contact)
-            )
-            conn.commit()
-            flash("✅ Registered successfully", "success")
-            return redirect("/login")
-        except Exception as e:
-            conn.rollback()
-            flash(f"❌ Registration failed: {str(e)}", "danger")
-            return redirect("/registration")
-
-    return render_template('registration.html')
-
-
 # -------------------------------
 # DATASET LOAD & PREPROCESS
 # -------------------------------
