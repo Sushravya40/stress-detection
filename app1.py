@@ -53,6 +53,9 @@ def home():
 # -------------------------------
 # ADMIN LOGIN
 # -------------------------------
+# -------------------------------
+# ADMIN LOGIN
+# -------------------------------
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
     """
@@ -173,6 +176,7 @@ def delete_user(id):
         flash(f"❌ Failed to delete user: {str(e)}", "danger")
     
     return redirect(url_for('admin_panel'))
+
 
 
 # -------------------------------
