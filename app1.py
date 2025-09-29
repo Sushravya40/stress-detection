@@ -182,25 +182,47 @@ def delete_user(id):
 # -------------------------------
 # USER LOGIN & REGISTRATION
 # -------------------------------
-@app.route('/login', methods=['POST','GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
+    """
+    User login route.
+    Authenticates users based on email and password stored in the database.
+    """
     if request.method == 'POST':
+        # -------------------------
+        # 1️⃣ Get form inputs and normalize
+        # -------------------------
         useremail = request.form['useremail'].strip().lower()
         userpassword = request.form['userpassword'].strip()
 
-        cur.execute("SELECT * FROM users WHERE Email=%s AND Password=%s", (useremail, userpassword))
-        user = cur.fetchone()  # Use fetchone instead of fetchall
+        # -------------------------
+        # 2️⃣ Query database for user
+        # -------------------------
+        cur.execute(
+            "SELECT * FROM users WHERE Email=%s AND Password=%s",
+            (useremail, userpassword)
+        )
+        user = cur.fetchone()  # fetchone() returns a single row or None
 
+        # -------------------------
+        # 3️⃣ Check if user exists
+        # -------------------------
         if not user:
             flash("❌ Invalid email or password. Please try again.", "danger")
             return redirect(url_for('login'))
-        else:
-            session['email'] = useremail
-            session['name'] = user[1]
-            session['pno'] = str(user[5])
-            return render_template("userhome.html", myname=session['name'])
 
+        # -------------------------
+        # 4️⃣ Set session variables and redirect to user home
+        # -------------------------
+        session['email'] = useremail
+        session['name'] = user[1]  # Name column
+        session['pno'] = str(user[5])  # Mobile number column
+        flash(f"✅ Welcome, {user[1]}!", "success")
+        return render_template("userhome.html", myname=session['name'])
+
+    # Render login page for GET requests
     return render_template('login.html')
+
 
 
 @app.route('/registration', methods=["POST", "GET"])
