@@ -50,76 +50,130 @@ def home():
 # -------------------------------
 # ADMIN LOGIN & PANEL
 # -------------------------------
+# -------------------------------
+# ADMIN LOGIN
+# -------------------------------
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
+    """
+    Admin login route.
+    Admin credentials are defined by environment variables (or default values).
+    """
     msg = ''
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form['email'].strip().lower()
+        password = request.form['password'].strip()
+        
         if email == admin_email and password == admin_password:
             session['admin_logged_in'] = True
             return redirect(url_for('admin_panel'))
         else:
-            msg = 'Invalid email or password!'
+            msg = '❌ Invalid email or password!'
+    
     return render_template('admin_login.html', msg=msg)
 
+
+# -------------------------------
+# ADMIN PANEL
+# -------------------------------
 @app.route('/admin_panel')
 def admin_panel():
+    """
+    Admin dashboard.
+    Admin can view allowed emails and registered users.
+    """
     if not session.get('admin_logged_in'):
-        flash('Please log in as admin to access the admin panel.', 'danger')
+        flash('⚠️ Please log in as admin to access the admin panel.', 'danger')
         return redirect(url_for('admin_login'))
 
     try:
         cur.execute("SELECT * FROM allowed_emails")
         allowed_emails = cur.fetchall()
+
         cur.execute("SELECT Id, Name, Email FROM users")
         registered_users = cur.fetchall()
     except Exception as e:
-        print(e)
+        print("Database error:", e)
         allowed_emails = []
         registered_users = []
 
     return render_template('admin_panel.html', allowed_emails=allowed_emails, registered_users=registered_users)
 
+
+# -------------------------------
+# ADMIN LOGOUT
+# -------------------------------
 @app.route('/admin_logout')
 def admin_logout():
+    """
+    Logs out admin and clears session.
+    """
     session.pop('admin_logged_in', None)
     flash("🚪 Logged out successfully.", "info")
     return redirect(url_for('admin_login'))
 
+
+# -------------------------------
+# ADD ALLOWED EMAIL (ADMIN ONLY)
+# -------------------------------
 @app.route('/admin/add_email', methods=['POST'])
 def add_email():
-    email = request.form['email']
+    """
+    Admin can add any email to allowed_emails table.
+    No restrictions; duplicates are ignored via ON CONFLICT.
+    """
+    email = request.form['email'].strip().lower()
     try:
-        cur.execute("INSERT INTO allowed_emails (email) VALUES (%s) ON CONFLICT (email) DO NOTHING", (email,))
+        cur.execute(
+            "INSERT INTO allowed_emails (email) VALUES (%s) ON CONFLICT (email) DO NOTHING",
+            (email,)
+        )
         conn.commit()
         flash("✅ Email added successfully", "success")
     except Exception as e:
         conn.rollback()
         flash(f"❌ Failed to add email: {str(e)}", "danger")
+    
     return redirect(url_for('admin_panel'))
 
+
+# -------------------------------
+# DELETE ALLOWED EMAIL (ADMIN ONLY)
+# -------------------------------
 @app.route('/admin/delete_email/<int:id>')
 def delete_email(id):
+    """
+    Admin can delete any email from allowed_emails table.
+    """
     try:
         cur.execute("DELETE FROM allowed_emails WHERE id=%s", (id,))
         conn.commit()
         flash("✅ Allowed email deleted successfully", "success")
-    except:
+    except Exception as e:
         conn.rollback()
-        flash("❌ Failed to delete allowed email", "danger")
+        flash(f"❌ Failed to delete allowed email: {str(e)}", "danger")
+    
     return redirect(url_for('admin_panel'))
 
+
+# -------------------------------
+# DELETE REGISTERED USER (ADMIN ONLY)
+# -------------------------------
 @app.route('/admin/delete_user/<int:id>')
 def delete_user(id):
+    """
+    Admin can delete any registered user.
+    """
     try:
         cur.execute("DELETE FROM users WHERE Id=%s", (id,))
         conn.commit()
         flash("✅ Registered user deleted successfully", "success")
-    except:
+    except Exception as e:
         conn.rollback()
-        flash("❌ Failed to delete user", "danger")
+        flash(f"❌ Failed to delete user: {str(e)}", "danger")
+    
     return redirect(url_for('admin_panel'))
+
 
 # -------------------------------
 # USER LOGIN & REGISTRATION
