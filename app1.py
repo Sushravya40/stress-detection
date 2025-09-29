@@ -11,10 +11,8 @@ import psycopg2
 # DATABASE SETUP (PostgreSQL)
 # -------------------------------
 DATABASE_URL = "postgresql://stressdb_y8l1_user:nkUESsYvS6ESRcUCquMOTazBZjCa6GQ4@dpg-d3ae75fdiees73d6lkhg-a/stressdb_y8l1"
-
-# Internal URL does not require SSL
 conn = psycopg2.connect(DATABASE_URL)
-cursor = conn.cursor()
+
 # -------------------------------
 # FLASK APP SETUP
 # -------------------------------
@@ -48,190 +46,139 @@ def home():
     return render_template("userhome.html")
 
 # -------------------------------
-# ADMIN LOGIN & PANEL
-# -------------------------------
-# -------------------------------
-# ADMIN LOGIN
-# -------------------------------
-# -------------------------------
 # ADMIN LOGIN
 # -------------------------------
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
-    """
-    Admin login route.
-    Admin credentials are defined by environment variables (or default values).
-    """
     msg = ''
     if request.method == 'POST':
         email = request.form['email'].strip().lower()
         password = request.form['password'].strip()
-        
         if email == admin_email and password == admin_password:
             session['admin_logged_in'] = True
             return redirect(url_for('admin_panel'))
         else:
             msg = '❌ Invalid email or password!'
-    
     return render_template('admin_login.html', msg=msg)
-
 
 # -------------------------------
 # ADMIN PANEL
 # -------------------------------
 @app.route('/admin_panel')
 def admin_panel():
-    """
-    Admin dashboard.
-    Admin can view allowed emails and registered users.
-    """
     if not session.get('admin_logged_in'):
         flash('⚠️ Please log in as admin to access the admin panel.', 'danger')
         return redirect(url_for('admin_login'))
-
     try:
+        cur = conn.cursor()
         cur.execute("SELECT * FROM allowed_emails")
         allowed_emails = cur.fetchall()
-
         cur.execute("SELECT Id, Name, Email FROM users")
         registered_users = cur.fetchall()
+        cur.close()
     except Exception as e:
         print("Database error:", e)
         allowed_emails = []
         registered_users = []
-
     return render_template('admin_panel.html', allowed_emails=allowed_emails, registered_users=registered_users)
-
 
 # -------------------------------
 # ADMIN LOGOUT
 # -------------------------------
 @app.route('/admin_logout')
 def admin_logout():
-    """
-    Logs out admin and clears session.
-    """
     session.pop('admin_logged_in', None)
     flash("🚪 Logged out successfully.", "info")
     return redirect(url_for('admin_login'))
 
-
 # -------------------------------
-# ADD ALLOWED EMAIL (ADMIN ONLY)
+# ADD ALLOWED EMAIL
 # -------------------------------
 @app.route('/admin/add_email', methods=['POST'])
 def add_email():
-    """
-    Admin can add any email to allowed_emails table.
-    No restrictions; duplicates are ignored via ON CONFLICT.
-    """
     email = request.form['email'].strip().lower()
     try:
+        cur = conn.cursor()
         cur.execute(
             "INSERT INTO allowed_emails (email) VALUES (%s) ON CONFLICT (email) DO NOTHING",
             (email,)
         )
         conn.commit()
+        cur.close()
         flash("✅ Email added successfully", "success")
     except Exception as e:
         conn.rollback()
         flash(f"❌ Failed to add email: {str(e)}", "danger")
-    
     return redirect(url_for('admin_panel'))
 
-
 # -------------------------------
-# DELETE ALLOWED EMAIL (ADMIN ONLY)
+# DELETE ALLOWED EMAIL
 # -------------------------------
 @app.route('/admin/delete_email/<int:id>')
 def delete_email(id):
-    """
-    Admin can delete any email from allowed_emails table.
-    """
     try:
+        cur = conn.cursor()
         cur.execute("DELETE FROM allowed_emails WHERE id=%s", (id,))
         conn.commit()
+        cur.close()
         flash("✅ Allowed email deleted successfully", "success")
     except Exception as e:
         conn.rollback()
         flash(f"❌ Failed to delete allowed email: {str(e)}", "danger")
-    
     return redirect(url_for('admin_panel'))
 
-
 # -------------------------------
-# DELETE REGISTERED USER (ADMIN ONLY)
+# DELETE REGISTERED USER
 # -------------------------------
 @app.route('/admin/delete_user/<int:id>')
 def delete_user(id):
-    """
-    Admin can delete any registered user.
-    """
     try:
+        cur = conn.cursor()
         cur.execute("DELETE FROM users WHERE Id=%s", (id,))
         conn.commit()
+        cur.close()
         flash("✅ Registered user deleted successfully", "success")
     except Exception as e:
         conn.rollback()
         flash(f"❌ Failed to delete user: {str(e)}", "danger")
-    
     return redirect(url_for('admin_panel'))
 
-
-
 # -------------------------------
-# USER LOGIN & REGISTRATION
+# USER LOGIN
 # -------------------------------
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    """
-    User login route.
-    Authenticates users based on email and password stored in the database.
-    """
     if request.method == 'POST':
-        # -------------------------
-        # 1️⃣ Get form inputs and normalize
-        # -------------------------
         useremail = request.form['useremail'].strip().lower()
         userpassword = request.form['userpassword'].strip()
-
-        # -------------------------
-        # 2️⃣ Query database for user
-        # -------------------------
-        cur.execute(
-            "SELECT * FROM users WHERE Email=%s AND Password=%s",
-            (useremail, userpassword)
-        )
-        user = cur.fetchone()  # fetchone() returns a single row or None
-
-        # -------------------------
-        # 3️⃣ Check if user exists
-        # -------------------------
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT * FROM users WHERE Email=%s AND Password=%s",
+                (useremail, userpassword)
+            )
+            user = cur.fetchone()
+            cur.close()
+        except Exception as e:
+            flash(f"Database error: {str(e)}", "danger")
+            return redirect(url_for('login'))
         if not user:
             flash("❌ Invalid email or password. Please try again.", "danger")
             return redirect(url_for('login'))
-
-        # -------------------------
-        # 4️⃣ Set session variables and redirect to user home
-        # -------------------------
         session['email'] = useremail
-        session['name'] = user[1]  # Name column
-        session['pno'] = str(user[5])  # Mobile number column
+        session['name'] = user[1]
+        session['pno'] = str(user[5])
         flash(f"✅ Welcome, {user[1]}!", "success")
         return render_template("userhome.html", myname=session['name'])
-
-    # Render login page for GET requests
     return render_template('login.html')
 
-
-
+# -------------------------------
+# USER REGISTRATION
+# -------------------------------
 @app.route('/registration', methods=["POST", "GET"])
 def registration():
-    # Allowed email domains for user registration
     allowed_domains = ['@techcorp.com', '@itcompany.com', '@cybertech.org', '@datasci.in', '@qaeng.com']
-
     if request.method == 'POST':
-        # Get form inputs
         username = request.form['username'].strip()
         useremail = request.form['useremail'].strip().lower()
         userpassword = request.form['userpassword'].strip()
@@ -239,46 +186,34 @@ def registration():
         Age = request.form['Age'].strip()
         contact = request.form['contact'].strip()
 
-        # -------------------------
-        # 1️⃣ Check if email domain is allowed
-        # -------------------------
         if not any(useremail.endswith(domain) for domain in allowed_domains):
             flash("❌ Registration allowed only for IT employees with approved email domains.", "danger")
             return redirect("/registration")
-
-        # -------------------------
-        # 2️⃣ Check password confirmation
-        # -------------------------
         if userpassword != conpassword:
             flash("⚠️ Passwords do not match.", "warning")
             return redirect("/registration")
-
-        # -------------------------
-        # 3️⃣ Check if user already exists
-        # -------------------------
-        cursor.execute("SELECT * FROM users WHERE Email=%s", (useremail,))
-        existing = cursor.fetchone()
-        if existing:
-            flash("⚠️ User already registered. Try logging in.", "warning")
-            return redirect("/registration")
-
-        # -------------------------
-        # 4️⃣ Register new user
-        # -------------------------
         try:
-            cursor.execute(
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM users WHERE Email=%s", (useremail,))
+            existing = cur.fetchone()
+            if existing:
+                flash("⚠️ User already registered. Try logging in.", "warning")
+                cur.close()
+                return redirect("/registration")
+            cur.execute(
                 "INSERT INTO users(Name, Email, Password, Age, Mob) VALUES (%s, %s, %s, %s, %s)",
                 (username, useremail, userpassword, Age, contact)
             )
             conn.commit()
+            cur.close()
             flash("✅ Registered successfully", "success")
             return redirect("/login")
         except Exception as e:
             conn.rollback()
             flash(f"❌ Registration failed: {str(e)}", "danger")
             return redirect("/registration")
-
     return render_template('registration.html')
+
 
 # -------------------------------
 # DATASET LOAD & PREPROCESS
