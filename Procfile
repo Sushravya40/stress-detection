@@ -1,1 +1,1 @@
-web: python app.py 
+web: gunicorn FROUNTEND.app1:app
