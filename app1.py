@@ -2,24 +2,17 @@ import os
 import psycopg2
 
 conn = None
+db_url = os.environ.get("DATABASE_URL")
 
-def get_db_connection():
-    global conn
-    db_url = os.environ.get("DATABASE_URL")  # ✅ correct
+if db_url:
+    try:
+        conn = psycopg2.connect(db_url)
+        print("Database connected")
+    except Exception as e:
+        print("Database connection failed:", e)
+else:
+    print("DATABASE_URL not set, running without DB")
 
-    if not db_url:
-        print("DATABASE_URL not set, running without DB")
-        return None
-
-    if conn is None:
-        try:
-            conn = psycopg2.connect(db_url)
-            print("Database connected")
-        except Exception as e:
-            print("Database connection failed:", e)
-            conn = None
-
-    return conn
 
 
 import pandas as pd 
