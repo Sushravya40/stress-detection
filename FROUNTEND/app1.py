@@ -1,3 +1,27 @@
+import os
+import psycopg2
+
+conn = None
+
+def get_db_connection():
+    global conn
+    db_url = os.environ.get("DATABASE_URL")  # ✅ correct
+
+    if not db_url:
+        print("DATABASE_URL not set, running without DB")
+        return None
+
+    if conn is None:
+        try:
+            conn = psycopg2.connect(db_url)
+            print("Database connected")
+        except Exception as e:
+            print("Database connection failed:", e)
+            conn = None
+
+    return conn
+
+
 import pandas as pd 
 import numpy as np 
 from sklearn.preprocessing import LabelEncoder

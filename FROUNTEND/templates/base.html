@@ -8,21 +8,26 @@
 
 	<title>Stress Detection</title>
 
-	<link rel="shortcut icon" type="image/png" href="static/img/appicon2.png">
+	<!-- ✅ favicon -->
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/appicon2.png') }}">
+
+	<!-- ✅ Google Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="static/css/all.min.css">
-	<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="static/css/owl.carousel.css">
-	<link rel="stylesheet" href="static/css/magnific-popup.css">
-	<link rel="stylesheet" href="static/css/animate.css">
-	<link rel="stylesheet" href="static/css/meanmenu.min.css">
-	<link rel="stylesheet" href="static/css/main.css">
-	<link rel="stylesheet" href="static/css/responsive.css">
+
+	<!-- ✅ CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/meanmenu.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
 
 	<style>
 		body {
-			background-image: url('/static/img/worklife-balance.png.png');
+			background-image: url("{{ url_for('static', filename='img/worklife-balance.png.png') }}");
 			background-size: cover;
 			background-repeat: no-repeat;
 		}
@@ -35,7 +40,10 @@
 		}
 	</style>
 </head>
+
 <body>
+
+	<!-- ================= HEADER ================= -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -43,10 +51,11 @@
 					<div class="main-menu-wrap">
 						<nav class="main-menu">
 							<ul>
-								<li><a href="/">Home</a></li>
-								<li><a href="/about">About</a></li>
-								<li class="active"><a href="/login">Log In</a></li>
-								<li><a href="/registration">Register</a></li>
+								<li><a href="{{ url_for('index') }}">Home</a></li>
+								<li><a href="{{ url_for('about') }}">About</a></li>
+								<li><a href="{{ url_for('login') }}">Log In</a></li>
+								<li><a href="{{ url_for('registration') }}">Register</a></li>
+								<li><a href="{{ url_for('admin_login') }}">🔐 Admin Login</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -55,7 +64,7 @@
 		</div>
 	</div>
 
-	<!-- ✅ Centered Flash Messages -->
+	<!-- ================= FLASH MESSAGES ================= -->
 	{% with messages = get_flashed_messages(with_categories=true) %}
 	  {% if messages %}
 		<div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; max-width: 600px; width: 90%;">
@@ -69,19 +78,24 @@
 	  {% endif %}
 	{% endwith %}
 
-	<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
+	<!-- ================= HERO AREA ================= -->
+	<div class="hero-area hero-bg" style="background-image:url('{{ url_for('static', filename='img/worklife-balance.png.png') }}');">
 		<div class="container">
-			<div class="col-lg-7">
-				<div class="mb-4" style="padding-top: 184px;">
-					{% block code %}{% endblock %}
+			<div class="row">
+				<div class="col-lg-7">
+					<div style="padding-top: 184px;">
+						{% block code %}{% endblock %}
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<script src="static/js/jquery-1.11.3.min.js"></script>
-	<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="static/js/main.js"></script>
+	<!-- ================= JS ================= -->
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 	<script>
 		setTimeout(() => {
 			const alert = document.querySelector('.alert');
@@ -91,5 +105,6 @@
 			}
 		}, 3000);
 	</script>
+
 </body>
 </html>
