@@ -394,5 +394,5 @@ def dashboard():
     return render_template('dashboard.html', dates=dates, stress_levels=stress_levels, current_filter=filter_type)
 
 #Starts the Flask app in debug mode.
-if __name__=="__main__":
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
