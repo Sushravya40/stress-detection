@@ -2,11 +2,14 @@ import os
 import psycopg2
 
 conn = None
+cur = None
+
 db_url = os.environ.get("DATABASE_URL")
 
 if db_url:
     try:
         conn = psycopg2.connect(db_url)
+        cur = conn.cursor()
         print("Database connected")
     except Exception as e:
         print("Database connection failed:", e)
@@ -25,13 +28,10 @@ from sklearn.metrics import mean_absolute_error,mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from flask import *
-import mysql.connector
 admin_email = "admin@example.com"
 admin_password = "admin123"
 
 #Connects to MySQL database Stress1.
-db=mysql.connector.connect(host='localhost',user="root",password="",port='3306',database='Stress1')
-cur=db.cursor()
 
 #Initializes the Flask app with a secret key for managing sessions
 app=Flask(__name__)
