@@ -2784,5 +2784,9 @@ table.order-details tbody td {
     padding-top: 120px; /* space for navbar */
 }
 .hero-text-wrapper {
-    max-width: 650px;
+    max-width: 750px;
+}
+
+.hero-title {
+    font-size: 56px;  /* instead of 64px */
 }
