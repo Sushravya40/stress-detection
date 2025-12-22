@@ -74,12 +74,11 @@
 {% block hero %}{% endblock %}
 
 =<!-- HERO SECTION (COMMON FOR ALL PAGES) -->
-<div class="hero-area hero-bg {% if request.endpoint != 'index' %}no-overlay{% endif %}">
-    <div class="container h-100 d-flex align-items-center">
-        <div class="row w-100">
-            {% block content %}{% endblock %}
-        </div>
-    </div>
+<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
+  <div class="container h-100 d-flex align-items-center">
+    {% block hero %}{% endblock %}
+    {% block code %}{% endblock %}
+  </div>
 </div>
 
 

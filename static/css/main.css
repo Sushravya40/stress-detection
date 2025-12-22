@@ -17,6 +17,12 @@ html {
   line-height: 28px;
   height: 100%;
 }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -1374,12 +1380,6 @@ a.mobile-show.search-bar-icon:hover {
 
 .hero-text-tablecell {
   display: table-cell;
-}
-
-.hero-area {
-  height: 100%;
-  position: relative;
-  z-index: 1;
 }
 
 html, body {
@@ -2769,6 +2769,12 @@ table.order-details tbody td {
     background-position: center;
     min-height: 100vh;
 }
+.hero-area {
+  min-height: 100vh;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
 
 .hero-text-wrapper {
     position: relative;
@@ -2780,14 +2786,15 @@ table.order-details tbody td {
 }
 
 .hero-title {
-    font-size: 56px;
-    font-weight: 700;
-    color: #fff;
+  font-size: 64px;
+  font-weight: 700;
+  color: #fff;
 }
 
 .hero-subtitle {
-    font-size: 20px;
-    color: #f1f1f1;
+  color: #ddd;
+  font-size: 20px;
+  margin-top: 15px;
 }
 
 
@@ -2809,3 +2816,38 @@ table.order-details tbody td {
   backdrop-filter: blur(6px);
   border-radius: 12px;
 }
+
+
+
+.login-card {
+  background: rgba(255, 255, 255, 0.96);
+  width: 420px;
+  padding: 35px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 14px;
+  background: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+

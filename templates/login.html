@@ -1,27 +1,14 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="col-lg-12 d-flex justify-content-center">
-    <div class="card p-5 shadow" style="width: 420px;">
-        <h2 class="text-center mb-4">User Login</h2>
+{% block code %}
+<div class="login-card">
+  <h2>User Login</h2>
 
-        <form action="{{ url_for('login') }}" method="post">
-            <div class="mb-3">
-                <input type="email" name="useremail"
-                       class="form-control p-3"
-                       placeholder="Enter Your Email" required>
-            </div>
+  <form method="post">
+    <input type="email" name="useremail" placeholder="Enter Your Email" required>
+    <input type="password" name="userpassword" placeholder="Enter Your Password" required>
 
-            <div class="mb-4">
-                <input type="password" name="userpassword"
-                       class="form-control p-3"
-                       placeholder="Enter Your Password" required>
-            </div>
-
-            <button class="btn btn-primary w-100 p-2">
-                Login
-            </button>
-        </form>
-    </div>
+    <button type="submit">Login</button>
+  </form>
 </div>
 {% endblock %}
