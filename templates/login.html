@@ -1,29 +1,27 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block hero %}
-<div class="row w-100 justify-content-center">
-    <div class="col-lg-5 col-md-7 bg-white p-5 rounded shadow">
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow p-4">
+            <h3 class="text-center mb-4">User Login</h3>
 
-        <h2 class="text-center mb-4">User Login</h2>
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="form-group mb-3">
+                    <input type="email" name="useremail" class="form-control p-3"
+                           placeholder="Enter Your Email" required>
+                </div>
 
-        <form action="{{ url_for('login') }}" method="post">
-            <div class="form-group mb-3">
-                <input type="email" name="useremail"
-                       class="form-control p-3"
-                       placeholder="Enter Your Email" required>
-            </div>
+                <div class="form-group mb-3">
+                    <input type="password" name="userpassword" class="form-control p-3"
+                           placeholder="Enter Your Password" required>
+                </div>
 
-            <div class="form-group mb-4">
-                <input type="password" name="userpassword"
-                       class="form-control p-3"
-                       placeholder="Enter Your Password" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 p-2">
-                Login
-            </button>
-        </form>
-
+                <button type="submit" class="btn btn-primary w-100 p-2">
+                    Login
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
