@@ -70,13 +70,14 @@
 		</div>
 	  {% endif %}
 	{% endwith %}
-	{% block hero %}{% endblock %}
 
-<div class="page-content">
-    <div class="container py-5">
-        {% block code %}{% endblock %}
-    </div>
+{% block hero %}{% endblock %}
+
+<div class="container mt-5">
+    {% block content %}{% endblock %}
 </div>
+
+
 
 
 
