@@ -33,13 +33,6 @@
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 			margin-top: 20px;
 		}
-		.admin-btn {
-    padding: 8px 16px;
-    border: 1px solid #ffc107;
-    color: #ffc107;
-    border-radius: 20px;
-}
-
 	</style>
 </head>
 <body>
@@ -54,7 +47,6 @@
 								<li><a href="/about">About</a></li>
 								<li class="active"><a href="/login">Log In</a></li>
 								<li><a href="/registration">Register</a></li>
-								<li><a href="/admin_login">Admin Login</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -76,8 +68,12 @@
 		</div>
 	  {% endif %}
 	{% endwith %}
-{% block hero %}{% endblock %}
-{% block code %}{% endblock %}
+
+	<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
+		<div class="container h-100">
+        {% block hero %}{% endblock %}
+    </div>
+	</div>
 
 	<script src="static/js/jquery-1.11.3.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
