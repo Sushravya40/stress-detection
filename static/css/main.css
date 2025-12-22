@@ -2782,9 +2782,16 @@ table.order-details tbody td {
 }
 
 .hero-area::after {
-    z-index: 1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 33, 46, 0.6);
+  z-index: 1;
 }
-
+.hero-area > * {
+  position: relative;
+  z-index: 2;
+}
 .hero-title {
   font-size: 64px;
   font-weight: 700;
