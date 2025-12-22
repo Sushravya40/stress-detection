@@ -2889,3 +2889,19 @@ html, body {
   font-weight: 600;
 }
 
+
+
+/* ===== FORCE REMOVE WHITE GAP ===== */
+body.no-gap {
+  margin: 0;
+  padding: 0;
+}
+
+body.no-gap .hero-area {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+body.no-gap .top-header-area {
+  top: 0;
+}
