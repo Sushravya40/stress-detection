@@ -2778,3 +2778,11 @@ table.order-details tbody td {
     font-size: 20px;
     color: #f1f1f1;
 }
+
+
+.hero-area {
+    padding-top: 120px; /* space for navbar */
+}
+.hero-text-wrapper {
+    max-width: 650px;
+}
