@@ -70,12 +70,15 @@
 		</div>
 	  {% endif %}
 	{% endwith %}
+	{% block hero %}{% endblock %}
 
-	<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
-		<div class="container h-100 d-flex align-items-center">
-        {% block hero %}{% endblock %}
+<div class="page-content">
+    <div class="container py-5">
+        {% block code %}{% endblock %}
     </div>
-	</div>
+</div>
+
+
 
 	<script src="static/js/jquery-1.11.3.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
