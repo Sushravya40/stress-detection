@@ -2801,3 +2801,11 @@ table.order-details tbody td {
 .hero-title {
     font-size: 56px;  /* instead of 64px */
 }
+.hero-area.no-overlay:after {
+  display: none;
+}
+.card {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+}
