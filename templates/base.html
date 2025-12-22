@@ -76,16 +76,8 @@
 		</div>
 	  {% endif %}
 	{% endwith %}
-
-	<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
-		<div class="container">
-			<div class="col-lg-7">
-				<div class="mb-4" style="padding-top: 184px;">
-					{% block code %}{% endblock %}
-				</div>
-			</div>
-		</div>
-	</div>
+{% block hero %}{% endblock %}
+{% block code %}{% endblock %}
 
 	<script src="static/js/jquery-1.11.3.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
