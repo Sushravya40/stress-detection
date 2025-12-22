@@ -530,12 +530,7 @@ ul.navbar-nav li.nav-item a.nav-link, ul.navbar-nav li.nav-item.active a.nav-lin
   color: #051922;
 }
 
-.top-header-area {
-  position: absolute;
-  z-index: 999;
-  width: 100%;
-  padding: 25px 0;
-}
+
 
 .top-header-area.white ul.navbar-nav li.nav-item a.nav-link, .top-header-area.white ul.navbar-nav li.nav-item.active a.nav-link {
   color: #fff;
@@ -719,13 +714,6 @@ nav.main-menu li a {
   color: #F28123;
 }
 
-.sticky-wrapper {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  z-index: 999 !important;
-}
 
 .sticky-wrapper.is-sticky .top-header-area {
   background-color: #051922;
@@ -1370,7 +1358,7 @@ a.mobile-show.search-bar-icon:hover {
   background-image: url(../img/hero-bg.jpg);
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  
 }
 
 .hero-text {
@@ -1387,14 +1375,7 @@ html, body {
   padding: 0;
 }
 
-.top-header-area {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10;
-  background: transparent;
-}
+
 
 .hero-area {
   min-height: 100vh;
@@ -1414,7 +1395,6 @@ html, body {
 .hero-content {
   position: relative;
   z-index: 1;
-  padding-top: 120px;
 }
 
 
@@ -2789,16 +2769,29 @@ table.order-details tbody td {
     background-position: center;
     min-height: 100vh;
 }
+
+/* ===== FINAL HERO FIX ===== */
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.top-header-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: transparent;
+}
+
 .hero-area {
   min-height: 100vh;
   position: relative;
   background-size: cover;
   background-position: center;
-}
-
-.hero-text-wrapper {
-    position: relative;
-    z-index: 2;
+  overflow: hidden;
 }
 
 .hero-area::after {
@@ -2808,10 +2801,29 @@ table.order-details tbody td {
   background: rgba(7, 33, 46, 0.6);
   z-index: 1;
 }
+
 .hero-area > * {
   position: relative;
   z-index: 2;
 }
+
+.hero-content,
+.hero-text-wrapper {
+  padding-top: 140px;
+}
+
+
+
+
+
+
+.hero-text-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+
+
 .hero-title {
   font-size: 64px;
   font-weight: 700;
@@ -2825,9 +2837,8 @@ table.order-details tbody td {
 }
 
 
-.hero-area {
-    padding-top: 120px; /* space for navbar */
-}
+
+
 .hero-text-wrapper {
     max-width: 750px;
 }
