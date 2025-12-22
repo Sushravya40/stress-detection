@@ -33,6 +33,12 @@
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 			margin-top: 20px;
 		}
+		.admin-btn {
+			padding: 8px 16px;
+			border: 1px solid #ffc107;
+			color: #ffc107;
+			border-radius: 20px;
+		}
 	</style>
 </head>
 <body>
@@ -43,10 +49,11 @@
 					<div class="main-menu-wrap">
 						<nav class="main-menu">
 							<ul>
-								<li><a href="/">Home</a></li>
-								<li><a href="/about">About</a></li>
-								<li class="active"><a href="/login">Log In</a></li>
-								<li><a href="/registration">Register</a></li>
+								<li><a href="/templates/base.html">Home</a></li>
+								<li><a href="/templates/about.html">About</a></li>
+								<li class="active"><a href="/templates/login.html">Log In</a></li>
+								<li><a href="/templates/registration.html">Register</a></li>
+								<a href="/templates/about.html" class="admin-btn">Admin Login</a>
 							</ul>
 						</nav>
 					</div>
