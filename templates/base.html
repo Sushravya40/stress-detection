@@ -73,9 +73,15 @@
 
 {% block hero %}{% endblock %}
 
-<div class="container mt-5">
-    {% block content %}{% endblock %}
+=<!-- HERO SECTION (COMMON FOR ALL PAGES) -->
+<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
+    <div class="container h-100 d-flex align-items-center">
+        <div class="row w-100">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
 </div>
+
 
 
 
