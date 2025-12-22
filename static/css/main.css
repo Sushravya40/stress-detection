@@ -1383,20 +1383,40 @@ a.mobile-show.search-bar-icon:hover {
 }
 
 html, body {
-  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.hero-area:after {
+.top-header-area {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
-  content: "";
-  background-color: #07212e;
-  z-index: -1;
-  opacity: 0.6;
+  z-index: 10;
+  background: transparent;
 }
+
+.hero-area {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-area::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 33, 46, 0.6);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding-top: 120px;
+}
+
 
 .hero-text p.subtitle {
   color: #F28123;
