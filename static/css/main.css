@@ -2759,6 +2759,17 @@ table.order-details tbody td {
 
 
 
+
+
+
+
+.hero-bg {
+    background-image: url("/static/img/worklife-balance.png.png");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
 .hero-text-wrapper {
     position: relative;
     z-index: 2;
@@ -2771,7 +2782,7 @@ table.order-details tbody td {
 .hero-title {
     font-size: 56px;
     font-weight: 700;
-    color: #ffffff;
+    color: #fff;
 }
 
 .hero-subtitle {
