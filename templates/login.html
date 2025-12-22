@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
-{% block code %}
-<div class="login-card">
-  <h2>User Login</h2>
+{% block content %}
+<div class="card p-4 shadow" style="width: 400px;">
+  <h3 class="text-center mb-3">User Login</h3>
 
   <form method="post">
-    <input type="email" name="useremail" placeholder="Enter Your Email" required>
-    <input type="password" name="userpassword" placeholder="Enter Your Password" required>
-
-    <button type="submit">Login</button>
+    <input type="email" name="useremail" class="form-control mb-3" placeholder="Enter Your Email" required>
+    <input type="password" name="userpassword" class="form-control mb-3" placeholder="Enter Your Password" required>
+    <button type="submit" class="btn btn-primary w-100">Login</button>
   </form>
 </div>
 {% endblock %}
