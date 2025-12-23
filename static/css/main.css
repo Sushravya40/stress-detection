@@ -2761,50 +2761,32 @@ table.order-details tbody td {
 
 
 
-
-/* ===== ABOUT PAGE HERO FIX ===== */
-.about-hero {
-  position: relative;
-  min-height: 100vh;
-  background: url('/static/img/worklife-balance.png.png') center/cover no-repeat;
-  padding-top: 160px;   /* same feel as home */
-  padding-bottom: 60px;
-}
-
-.about-hero .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(7, 33, 46, 0.65); /* SAME overlay strength as home */
-  z-index: 1;
-}
-
+/* ===== ABOUT PAGE FINAL FIX ===== */
 .about-content {
-  position: relative;
-  z-index: 5;
+    max-width: 720px;          /* prevents over-wide text */
+    margin-left: 80px;         /* aligns nicely from left */
+    background: rgba(0, 0, 0, 0.45);
+    padding: 32px 36px;
+    border-radius: 14px;
+    backdrop-filter: blur(4px);
 }
 
-.about-content p {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #f1f1f1;
-}
-.about-content h2,
-.about-content h3 {
-    color: #ffffff;   /* pure white */
+/* Headings */
+.about-content h2 {
+    color: #ffffff;
     font-weight: 700;
+    line-height: 1.2;
 }
 
+/* Paragraphs */
 .about-content p {
-    color: #eaeaea;   /* soft white */
+    color: #eaeaea;
     font-size: 1rem;
     line-height: 1.8;
 }
-.about-hero .hero-overlay {
-    background: rgba(7, 33, 46, 0.55);  /* lighter than before */
-}
-.about-content {
-    background: rgba(0, 0, 0, 0.35);
-    padding: 30px 35px;
-    border-radius: 12px;
-    backdrop-filter: blur(4px);
+
+/* Make sure hero doesn’t clip content */
+.about-hero {
+    min-height: 100vh;
+    padding-bottom: 80px;
 }
