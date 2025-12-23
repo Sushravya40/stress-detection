@@ -1,20 +1,10 @@
+
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
-import psycopg2
-
-conn = None
-cur = None
-
-db_url = os.environ.get("DATABASE_URL")
-
-if db_url:
-    try:
-        conn = psycopg2.connect(db_url)
-        cur = conn.cursor()
-        print("Database connected")
-    except Exception as e:
-        print("Database connection failed:", e)
-else:
-    print("DATABASE_URL not set, running without DB")
+from flask import session, flash
+from db import get_db_connection
+conn = get_db_connection()
+cur = conn.cursor()
 
 
 
@@ -52,21 +42,36 @@ def home():
 
 from flask import request, session, redirect, url_for, render_template, flash
 
+from werkzeug.security import check_password_hash
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
-    msg = ''
+    msg = ""
+
     if request.method == 'POST':
-        email = request.form['email']       # ✅ Use 'email' instead of 'username'
+        email = request.form['email']
         password = request.form['password']
 
-        # Dummy credentials for example
-        if email == 'admin@example.com' and password == 'admin123':
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # ✅ Get hashed password from DB
+        cur.execute(
+            "SELECT password FROM admin WHERE email=%s",
+            (email,)
+        )
+        row = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        # ✅ Verify hashed password
+        if row and check_password_hash(row[0], password):
             session['admin_logged_in'] = True
             return redirect(url_for('admin_panel'))
         else:
-            msg = 'Invalid email or password!'
-    return render_template('admin_login.html', msg=msg)
+            msg = "❌ Invalid admin credentials"
 
+    return render_template("admin_login.html", msg=msg)
 
 
 
@@ -75,19 +80,26 @@ from flask import session, redirect, url_for, flash, render_template
 @app.route('/admin_panel')
 def admin_panel():
     if not session.get('admin_logged_in'):
-        flash('Please log in as admin to access the admin panel.', 'danger')
+        flash('Please log in as admin.', 'danger')
         return redirect(url_for('admin_login'))
 
-    # Only run these if the admin is logged in
+    conn = get_db_connection()
+    cur = conn.cursor()
+
     cur.execute("SELECT * FROM allowed_emails")
     allowed_emails = cur.fetchall()
 
-    cur.execute("SELECT Id, Name, Email FROM user")
+    cur.execute("SELECT id, name, email FROM users")
     registered_users = cur.fetchall()
 
-    return render_template('admin_panel.html',
-                           allowed_emails=allowed_emails,
-                           registered_users=registered_users)
+    cur.close()
+    conn.close()
+
+    return render_template(
+        'admin_panel.html',
+        allowed_emails=allowed_emails,
+        registered_users=registered_users
+    )
 
 @app.route('/admin_logout')
 def admin_logout():
@@ -100,36 +112,48 @@ def admin_logout():
 @app.route('/admin/add_email', methods=['POST'])
 def add_email():
     email = request.form['email']
-    try:
-        cur.execute("INSERT INTO allowed_emails (email) VALUES (%s)", (email,))
-        db.commit()
-        flash("✅ Email added successfully", "success")
-    except:
-        db.rollback()
-        flash("❌ Failed to add email", "danger")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        "INSERT INTO allowed_emails (email) VALUES (%s) ON CONFLICT DO NOTHING",
+        (email,)
+    )
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    flash("✅ Email added successfully", "success")
     return redirect(url_for('admin_panel'))
+
 
 
 @app.route('/admin/delete_email/<int:id>')
 def delete_email(id):
-    try:
-        cur.execute("DELETE FROM allowed_emails WHERE id=%s", (id,))
-        db.commit()
-        flash("✅ Allowed email deleted successfully", "success")
-    except:
-        db.rollback()
-        flash("❌ Failed to delete allowed email", "danger")
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM allowed_emails WHERE id=%s", (id,))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    flash("✅ Email deleted successfully", "success")
     return redirect(url_for('admin_panel'))
+
 
 
 @app.route('/admin/delete_user/<int:id>')
 def delete_user(id):
     try:
         cur.execute("DELETE FROM user WHERE Id=%s", (id,))
-        db.commit()
+        conn.commit()
         flash("✅ Registered user deleted successfully", "success")
     except:
-        db.rollback()
+        conn.rollback()
         flash("❌ Failed to delete user", "danger")
     return redirect(url_for('admin_panel'))
 
@@ -195,13 +219,13 @@ def registration():
         if userpassword == conpassword:
             cur.execute("SELECT * FROM user WHERE Email=%s", (useremail,))
             data = cur.fetchall()
-            db.commit()
+            conn.commit()
 
             if data == []:
                 sql = "INSERT INTO user(Name, Email, Password, Age, Mob) VALUES (%s, %s, %s, %s, %s)"
                 val = (username, useremail, userpassword, Age, contact)
                 cur.execute(sql, val)
-                db.commit()
+                conn.commit()
                 flash("✅ Registered successfully", "success")
                 return redirect("/login")
             else:
@@ -346,7 +370,7 @@ def prediction():
         """
         val = (email, f1, f2, f3, f4, f5, float(result[0]), date)
         cur.execute(sql, val)
-        db.commit()
+        conn.commit()
 
         # 🧠 Result Message and Suggestions
         stress_value = float(result[0])
