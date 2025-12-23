@@ -159,83 +159,101 @@ def delete_user(id):
 
 
 #Displays login page and processes login POST requests.
-@app.route('/login',methods=['POST','GET'])
+from werkzeug.security import check_password_hash
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method=='POST':
-        useremail=request.form['useremail']
-        session['useremail']=useremail
-        userpassword=request.form['userpassword']
-        sql="select count(*) from user where Email='%s' and Password='%s'"%(useremail,userpassword)
-        # cur.execute(sql)
-        # data=cur.fetchall()
-        # db.commit()
+    if request.method == 'POST':
+        useremail = request.form['useremail'].lower()
+        password = request.form['userpassword']
 
-        #Verifies credentials from the database.
-        x=pd.read_sql_query(sql,db)
-        print(x)
-        print('########################')
-        count=x.values[0][0]
+        conn = get_db_connection()
+        cur = conn.cursor()
 
-        from flask import flash, redirect, url_for
-        if count == 0:
+        # ✅ Fetch user record
+        cur.execute("""
+            SELECT id, name, password, mob
+            FROM users
+            WHERE email = %s
+        """, (useremail,))
+        user = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        # ❌ Invalid email or password
+        if not user or not check_password_hash(user[2], password):
             flash("❌ Invalid email or password. Please try again.", "danger")
             return redirect(url_for('login'))
 
-        else:
-            # Extract user info & store in session
-            s="select * from user where Email='%s' and Password='%s'"%(useremail,userpassword)
-            z=pd.read_sql_query(s,db)
-            session['email']=useremail
-            pno=str(z.values[0][4])
-            print(pno)
-            name=str(z.values[0][1])
-            print(name)
-            session['pno']=pno
-            session['name']=name
-            return render_template("userhome.html",myname=name)
+        # ✅ Login success
+        session['email'] = useremail
+        session['name'] = user[1]
+        session['pno'] = user[3]
+
+        return render_template("userhome.html", myname=user[1])
+
     return render_template('login.html')
 
+
+from werkzeug.security import generate_password_hash
 
 @app.route('/registration', methods=["POST", "GET"])
 def registration():
 
-    # ✅ Allowed email domains for IT employees
-    allowed_domains = ['@techcorp.com', '@itcompany.com', '@cybertech.org', '@datasci.in', '@qaeng.com']
+    allowed_domains = [
+        '@techcorp.com', '@itcompany.com',
+        '@cybertech.org', '@datasci.in', '@qaeng.com'
+    ]
 
     if request.method == 'POST':
         username = request.form['username']
         useremail = request.form['useremail'].lower()
-        userpassword = request.form['userpassword']
+        password = request.form['userpassword']
         conpassword = request.form['conpassword']
-        Age = request.form['Age']
+        age = request.form['Age']
         contact = request.form['contact']
 
-        # ✅ Check if email ends with a valid IT domain
+        # ✅ Domain check
         if not any(useremail.endswith(domain) for domain in allowed_domains):
-            flash("❌ Registration allowed only for IT employees with approved email domains.", "danger")
+            flash("❌ Registration allowed only for IT employees.", "danger")
             return redirect("/registration")
 
         # ✅ Password match check
-        if userpassword == conpassword:
-            cur.execute("SELECT * FROM user WHERE Email=%s", (useremail,))
-            data = cur.fetchall()
-            conn.commit()
-
-            if data == []:
-                sql = "INSERT INTO user(Name, Email, Password, Age, Mob) VALUES (%s, %s, %s, %s, %s)"
-                val = (username, useremail, userpassword, Age, contact)
-                cur.execute(sql, val)
-                conn.commit()
-                flash("✅ Registered successfully", "success")
-                return redirect("/login")
-            else:
-                flash("⚠️ User already registered. Try logging in.", "warning")
-                return redirect("/registration")
-        else:
+        if password != conpassword:
             flash("⚠️ Passwords do not match.", "warning")
             return redirect("/registration")
 
+        # 🔐 Hash password
+        hashed_password = generate_password_hash(password)
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # ✅ CHECK user exists (users table, NOT user)
+        cur.execute("SELECT 1 FROM users WHERE email=%s", (useremail,))
+        exists = cur.fetchone()
+
+        if exists:
+            cur.close()
+            conn.close()
+            flash("⚠️ User already registered. Try logging in.", "warning")
+            return redirect("/registration")
+
+        # ✅ INSERT user
+        cur.execute("""
+            INSERT INTO users (name, email, password, age, mob)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (username, useremail, hashed_password, age, contact))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        flash("✅ Registered successfully", "success")
+        return redirect("/login")
+
     return render_template('registration.html')
+
 
 
 #Loads CSV dataset and renders in HTML table using to_html().
