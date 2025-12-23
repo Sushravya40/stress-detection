@@ -3,8 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from flask import session, flash
 from db import get_db_connection
-conn = get_db_connection()
-cur = conn.cursor()
 
 
 
@@ -148,14 +146,21 @@ def delete_email(id):
 
 @app.route('/admin/delete_user/<int:id>')
 def delete_user(id):
+    conn = get_db_connection()
+    cur = conn.cursor()
     try:
-        cur.execute("DELETE FROM user WHERE Id=%s", (id,))
+        cur.execute("DELETE FROM users WHERE id=%s", (id,))
         conn.commit()
         flash("✅ Registered user deleted successfully", "success")
-    except:
+    except Exception as e:
         conn.rollback()
         flash("❌ Failed to delete user", "danger")
+    finally:
+        cur.close()
+        conn.close()
+
     return redirect(url_for('admin_panel'))
+
 
 
 #Displays login page and processes login POST requests.
@@ -210,36 +215,31 @@ def registration():
         useremail = request.form['useremail'].lower()
         password = request.form['userpassword']
         conpassword = request.form['conpassword']
-        age = request.form['Age']
+        age = int(request.form['Age'])   # ✅ FIX
         contact = request.form['contact']
 
-        # ✅ Domain check
         if not any(useremail.endswith(domain) for domain in allowed_domains):
             flash("❌ Registration allowed only for IT employees.", "danger")
             return redirect("/registration")
 
-        # ✅ Password match check
         if password != conpassword:
             flash("⚠️ Passwords do not match.", "warning")
             return redirect("/registration")
 
-        # 🔐 Hash password
         hashed_password = generate_password_hash(password)
 
         conn = get_db_connection()
         cur = conn.cursor()
 
-        # ✅ CHECK user exists (users table, NOT user)
         cur.execute("SELECT 1 FROM users WHERE email=%s", (useremail,))
         exists = cur.fetchone()
 
         if exists:
             cur.close()
             conn.close()
-            flash("⚠️ User already registered. Try logging in.", "warning")
+            flash("⚠️ User already registered.", "warning")
             return redirect("/registration")
 
-        # ✅ INSERT user
         cur.execute("""
             INSERT INTO users (name, email, password, age, mob)
             VALUES (%s, %s, %s, %s, %s)
@@ -253,6 +253,7 @@ def registration():
         return redirect("/login")
 
     return render_template('registration.html')
+
 
 
 
