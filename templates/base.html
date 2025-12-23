@@ -21,37 +21,11 @@
 	<link rel="stylesheet" href="static/css/responsive.css">
 
 	<style>
-		html, body {
-			margin: 0;
-			padding: 0;
-		}
-		.top-header-area {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			z-index: 10;
-			background: transparent;
-		}
-		.hero-area {
-			min-height: 100vh;
+		body {
+			background-image: url('/static/img/worklife-balance.png.png');
 			background-size: cover;
-			background-position: center;
-			position: relative;
+			background-repeat: no-repeat;
 		}
-		.hero-area::after {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background: rgba(7, 33, 46, 0.6);
-			z-index: 0;
-		}
-		.hero-content {
-			position: relative;
-			z-index: 1;
-			padding-top: 120px;
-		}
-
 		.alert {
 			font-size: 16px;
 			padding: 12px 20px;
@@ -59,15 +33,9 @@
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 			margin-top: 20px;
 		}
-		.admin-btn {
-			padding: 8px 16px;
-			border: 1px solid #ffc107;
-			color: #ffc107;
-			border-radius: 20px;
-		}
 	</style>
 </head>
-<body class="no-gap">
+<body>
 	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -77,9 +45,8 @@
 							<ul>
 								<li><a href="/">Home</a></li>
 								<li><a href="/about">About</a></li>
-								<li><a href="/login">Log In</a></li>
+								<li class="active"><a href="/login">Log In</a></li>
 								<li><a href="/registration">Register</a></li>
-								<li><a href="/admin_login" class="admin-btn">Admin Login</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -102,18 +69,15 @@
 	  {% endif %}
 	{% endwith %}
 
-=<!-- HERO SECTION (COMMON FOR ALL PAGES) -->
-<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
-  <div class="container h-100 d-flex align-items-center justify-content-center">
-    {% block content %}{% endblock %}
-  </div>
-</div>
-
-
-
-
-
-
+	<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
+		<div class="container">
+			<div class="col-lg-7">
+				<div class="mb-4" style="padding-top: 184px;">
+					{% block code %}{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script src="static/js/jquery-1.11.3.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>

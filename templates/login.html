@@ -1,13 +1,15 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div class="card p-4 shadow" style="width: 400px;">
-  <h3 class="text-center mb-3">User Login</h3>
-
-  <form method="post">
-    <input type="email" name="useremail" class="form-control mb-3" placeholder="Enter Your Email" required>
-    <input type="password" name="userpassword" class="form-control mb-3" placeholder="Enter Your Password" required>
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-  </form>
-</div>
+{% extends 'base.html' %}
+{% block code %}
+<h1 style="color: aliceblue;">User Login</h1>
+<form action="{{ url_for('login') }}" method="post">
+    <div class="form-group">
+        <input type="email" name="useremail" class="form-control p-4" placeholder="Enter Your Email" required />
+    </div><br><br>
+    <div class="form-group">
+        <input type="password" name="userpassword" class="form-control p-4" placeholder="Enter Your Password" required />
+    </div><br><br>
+    <div>
+        <button type="submit" class="btn btn-primary btn-block p-2">Login</button>
+    </div>
+</form>
 {% endblock %}

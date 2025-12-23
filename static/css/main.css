@@ -17,12 +17,6 @@ html {
   line-height: 28px;
   height: 100%;
 }
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -530,7 +524,12 @@ ul.navbar-nav li.nav-item a.nav-link, ul.navbar-nav li.nav-item.active a.nav-lin
   color: #051922;
 }
 
-
+.top-header-area {
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+  padding: 25px 0;
+}
 
 .top-header-area.white ul.navbar-nav li.nav-item a.nav-link, .top-header-area.white ul.navbar-nav li.nav-item.active a.nav-link {
   color: #fff;
@@ -714,6 +713,13 @@ nav.main-menu li a {
   color: #F28123;
 }
 
+.sticky-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 999 !important;
+}
 
 .sticky-wrapper.is-sticky .top-header-area {
   background-color: #051922;
@@ -1358,7 +1364,7 @@ a.mobile-show.search-bar-icon:hover {
   background-image: url(../img/hero-bg.jpg);
   background-size: cover;
   background-position: center;
-  
+  background-attachment: fixed;
 }
 
 .hero-text {
@@ -1370,33 +1376,27 @@ a.mobile-show.search-bar-icon:hover {
   display: table-cell;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
-
-
 .hero-area {
-  min-height: 100vh;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-
-.hero-area::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(7, 33, 46, 0.6);
-  z-index: 0;
-}
-
-.hero-content {
+  height: 100%;
   position: relative;
   z-index: 1;
 }
 
+html, body {
+  height: 100%;
+}
+
+.hero-area:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background-color: #07212e;
+  z-index: -1;
+  opacity: 0.6;
+}
 
 .hero-text p.subtitle {
   color: #F28123;
@@ -2754,154 +2754,4 @@ table.order-details tbody td {
   display: table-cell;
   vertical-align: middle;
   width: 100%;
-}
-
-
-
-
-
-
-
-
-.hero-bg {
-    background-image: url("/static/img/worklife-balance.png.png");
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-}
-
-/* ===== FINAL HERO FIX ===== */
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
-.top-header-area {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  background: transparent;
-}
-
-.hero-area {
-  min-height: 100vh;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-}
-
-.hero-area::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(7, 33, 46, 0.6);
-  z-index: 1;
-}
-
-.hero-area > * {
-  position: relative;
-  z-index: 2;
-}
-
-.hero-content,
-.hero-text-wrapper {
-  padding-top: 140px;
-}
-
-
-
-
-
-
-.hero-text-wrapper {
-    position: relative;
-    z-index: 2;
-}
-
-
-
-.hero-title {
-  font-size: 64px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.hero-subtitle {
-  color: #ddd;
-  font-size: 20px;
-  margin-top: 15px;
-}
-
-
-
-
-.hero-text-wrapper {
-    max-width: 750px;
-}
-
-.hero-title {
-    font-size: 56px;  /* instead of 64px */
-}
-.hero-area.no-overlay:after {
-  display: none;
-}
-.card {
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(6px);
-  border-radius: 12px;
-}
-
-
-
-.login-card {
-  background: rgba(255, 255, 255, 0.96);
-  width: 420px;
-  padding: 35px;
-  border-radius: 14px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
-
-.login-card h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: 700;
-}
-
-.login-card input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 18px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.login-card button {
-  width: 100%;
-  padding: 14px;
-  background: #0d6efd;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-
-
-/* ===== FORCE REMOVE WHITE GAP ===== */
-body.no-gap {
-  margin: 0;
-  padding: 0;
-}
-
-body.no-gap .hero-area {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-body.no-gap .top-header-area {
-  top: 0;
 }
