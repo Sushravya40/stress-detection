@@ -2834,3 +2834,6 @@ table.order-details tbody td {
         padding-bottom: 80px;
     }
 }
+.about-content {
+    margin: 0 auto;   /* instead of margin-left */
+}
