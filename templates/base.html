@@ -42,8 +42,58 @@
 		nav.main-menu ul li a:hover {
 			color: #ff9800 !important;
 		}
-		.mean-container .mean-nav ul li a {
-			text-shadow: none;
+		
+		/* Mobile Menu Fixes */
+		.mobile-menu {
+			position: relative;
+			z-index: 9999;
+		}
+		.mean-container .mean-bar {
+			background-color: transparent !important;
+			padding: 0 !important;
+			min-height: 0 !important;
+		}
+		.mean-container a.meanmenu-reveal {
+			padding: 15px !important;
+			background: #ff9800 !important;
+			color: #fff !important;
+			border-radius: 5px;
+			top: -40px !important;
+			display: block !important;
+			position: absolute !important;
+			right: 20px !important;
+		}
+		.mean-container a.meanmenu-reveal span {
+			background-color: #fff !important;
+		}
+		@media only screen and (max-width: 991px) {
+			.top-header-area {
+				padding: 40px 0;
+			}
+			.main-menu {
+				display: none !important;
+			}
+		}
+
+		/* Hero Section Responsive */
+		.hero-content-wrapper {
+			padding-top: 184px;
+		}
+		@media only screen and (max-width: 991px) {
+			.hero-content-wrapper {
+				padding-top: 120px;
+				text-align: center;
+			}
+		}
+		@media only screen and (max-width: 767px) {
+			.hero-content-wrapper {
+				padding-top: 100px;
+			}
+			.hero-area {
+				height: auto;
+				min-height: 100vh;
+				padding-bottom: 50px;
+			}
 		}
 	</style>
 </head>
@@ -53,10 +103,6 @@
 			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
 					<div class="main-menu-wrap">
-						<!-- mobile menu -->
-						<div class="mobile-menu"></div>
-						<!-- mobile menu -->
-
 						<nav class="main-menu">
 							<ul>
 								<li><a href="/">Home</a></li>
@@ -68,6 +114,8 @@
 								</li>
 							</ul>
 						</nav>
+						<!-- mobile menu container -->
+						<div class="mobile-menu"></div>
 					</div>
 				</div>
 			</div>
@@ -98,30 +146,10 @@
 		</div>
 	</div>
 
-	<style>
-		.hero-content-wrapper {
-			padding-top: 184px;
-		}
-		@media only screen and (max-width: 991px) {
-			.hero-content-wrapper {
-				padding-top: 120px;
-				text-align: center;
-			}
-		}
-		@media only screen and (max-width: 767px) {
-			.hero-content-wrapper {
-				padding-top: 100px;
-			}
-			.hero-area {
-				height: auto;
-				min-height: 100vh;
-				padding-bottom: 50px;
-			}
-		}
-	</style>
-
 	<script src="static/js/jquery-1.11.3.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="static/js/jquery.meanmenu.min.js"></script>
+	<script src="static/js/sticker.js"></script>
 	<script src="static/js/main.js"></script>
 	<script>
 		setTimeout(() => {
