@@ -206,11 +206,6 @@ from werkzeug.security import generate_password_hash
 @app.route('/registration', methods=["POST", "GET"])
 def registration():
 
-    allowed_domains = [
-        '@techcorp.com', '@itcompany.com',
-        '@cybertech.org', '@datasci.in', '@qaeng.com'
-    ]
-
     if request.method == 'POST':
         username = request.form['username']
         useremail = request.form['useremail'].lower()
@@ -218,10 +213,6 @@ def registration():
         conpassword = request.form['conpassword']
         age = int(request.form['Age'])   # ✅ FIX
         contact = request.form['contact']
-
-        if not any(useremail.endswith(domain) for domain in allowed_domains):
-            flash("❌ Registration allowed only for IT employees.", "danger")
-            return redirect("/registration")
 
         if password != conpassword:
             flash("⚠️ Passwords do not match.", "warning")
