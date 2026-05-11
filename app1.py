@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from flask import session, flash
 from db import get_db_connection
+import init_db  # This ensures the database is initialized when app starts
 
 
 
