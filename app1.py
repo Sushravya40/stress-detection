@@ -54,7 +54,7 @@ def admin_login():
 
         # ✅ Get hashed password from DB
         cur.execute(
-            "SELECT password FROM admin WHERE email=%s",
+            "SELECT password FROM admin WHERE email=?",
             (email,)
         )
         row = cur.fetchone()
@@ -115,7 +115,7 @@ def add_email():
     cur = conn.cursor()
 
     cur.execute(
-        "INSERT INTO allowed_emails (email) VALUES (%s) ON CONFLICT DO NOTHING",
+        "INSERT OR IGNORE INTO allowed_emails (email) VALUES (?) ",
         (email,)
     )
     conn.commit()
@@ -133,7 +133,7 @@ def delete_email(id):
     conn = get_db_connection()
     cur = conn.cursor()
 
-    cur.execute("DELETE FROM allowed_emails WHERE id=%s", (id,))
+    cur.execute("DELETE FROM allowed_emails WHERE id=?", (id,))
     conn.commit()
 
     cur.close()
@@ -149,7 +149,7 @@ def delete_user(id):
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        cur.execute("DELETE FROM users WHERE id=%s", (id,))
+        cur.execute("DELETE FROM users WHERE id=?", (id,))
         conn.commit()
         flash("✅ Registered user deleted successfully", "success")
     except Exception as e:
@@ -178,7 +178,7 @@ def login():
         cur.execute("""
             SELECT id, name, password, mob
             FROM users
-            WHERE email = %s
+            WHERE email = ?
         """, (useremail,))
         user = cur.fetchone()
 
@@ -231,7 +231,7 @@ def registration():
         conn = get_db_connection()
         cur = conn.cursor()
 
-        cur.execute("SELECT 1 FROM users WHERE email=%s", (useremail,))
+        cur.execute("SELECT 1 FROM users WHERE email=?", (useremail,))
         exists = cur.fetchone()
 
         if exists:
@@ -242,7 +242,7 @@ def registration():
 
         cur.execute("""
             INSERT INTO users (name, email, password, age, mob)
-            VALUES (%s, %s, %s, %s, %s)
+            VALUES (?, ?, ?, ?, ?)
         """, (username, useremail, hashed_password, age, contact))
 
         conn.commit()
@@ -393,7 +393,7 @@ def prediction():
         sql = """
         INSERT INTO stress_prediction 
         (email, heart_rate, skin_conductivity, hours_worked, emails_sent, meetings_attended, prediction, date)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """
         val = (email, f1, f2, f3, f4, f5, float(result[0]), date)
         cur.execute(sql, val)
@@ -450,13 +450,13 @@ def dashboard():
         week_ago = today - timedelta(days=7)
         cur.execute("""
             SELECT date, prediction FROM stress_prediction 
-            WHERE email = %s AND date >= %s 
+            WHERE email = ? AND date >= ? 
             ORDER BY date
         """, (email, week_ago.strftime('%Y-%m-%d')))
     else:
         cur.execute("""
             SELECT date, prediction FROM stress_prediction 
-            WHERE email = %s 
+            WHERE email = ? 
             ORDER BY date
         """, (email,))
 
