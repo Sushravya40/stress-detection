@@ -41,6 +41,10 @@
 			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
 					<div class="main-menu-wrap">
+						<!-- mobile menu -->
+						<div class="mobile-menu"></div>
+						<!-- mobile menu -->
+
 						<nav class="main-menu">
 							<ul>
 								<li><a href="/">Home</a></li>
@@ -75,12 +79,34 @@
 	<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
 		<div class="container">
 			<div class="col-lg-7">
-				<div class="mb-4" style="padding-top: 184px;">
+				<div class="hero-content-wrapper mb-4">
 					{% block code %}{% endblock %}
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<style>
+		.hero-content-wrapper {
+			padding-top: 184px;
+		}
+		@media only screen and (max-width: 991px) {
+			.hero-content-wrapper {
+				padding-top: 120px;
+				text-align: center;
+			}
+		}
+		@media only screen and (max-width: 767px) {
+			.hero-content-wrapper {
+				padding-top: 100px;
+			}
+			.hero-area {
+				height: auto;
+				min-height: 100vh;
+				padding-bottom: 50px;
+			}
+		}
+	</style>
 
 	<script src="static/js/jquery-1.11.3.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>

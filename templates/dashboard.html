@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stress Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
@@ -11,37 +11,42 @@
             font-family: 'Poppins', sans-serif;
             text-align: center;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
             min-height: 100vh;
         }
         h2 {
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
         }
         .btn {
-            border-radius: 25px;
-            padding: 10px 20px;
+            border-radius: 20px;
+            padding: 8px 15px;
             font-weight: bold;
-            margin: 0 5px;
+            margin: 5px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+            font-size: 0.9rem;
         }
         #quote {
             margin-top: 30px;
             font-style: italic;
             color: #555;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            padding: 0 10px;
         }
-        canvas {
+        .chart-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 20px;
             background: #fff;
             border-radius: 16px;
             padding: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        canvas {
+            min-width: 600px; /* Force minimum width to ensure chart is readable on small screens */
         }
     </style>
 </head>
@@ -64,7 +69,9 @@
     {% if not dates %}
         <p>No stress entries available. Please fill the prediction form first.</p>
     {% else %}
-        <canvas id="stressChart" width="800" height="400"></canvas>
+        <div class="chart-container">
+            <canvas id="stressChart"></canvas>
+        </div>
         <script>
             const dates = {{ dates | safe }};
             const stressLevels = {{ stress_levels | safe }};

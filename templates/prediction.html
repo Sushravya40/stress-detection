@@ -30,11 +30,20 @@
 
     .form-container {
       background-color: rgba(255, 255, 255, 0.95);
-      padding: 40px;
+      padding: 30px;
       border-radius: 16px;
       max-width: 600px;
       width: 100%;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 576px) {
+      .form-container {
+        padding: 20px;
+      }
+      .form-title {
+        font-size: 1.2rem;
+      }
     }
 
     .form-title {
@@ -46,17 +55,17 @@
     }
 
     .form-control {
-      height: 50px;
-      border-radius: 12px;
+      height: 45px;
+      border-radius: 10px;
     }
 
     .submit-btn {
       background-color: #ff9800;
       color: white;
       font-weight: bold;
-      padding: 12px;
+      padding: 10px;
       border: none;
-      border-radius: 25px;
+      border-radius: 20px;
       width: 100%;
       transition: 0.3s;
     }
@@ -71,6 +80,7 @@
       margin-bottom: 15px;
       font-weight: 500;
       color: #d32f2f;
+      font-size: 0.9rem;
     }
   </style>
 </head>
