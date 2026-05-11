@@ -260,7 +260,7 @@ def registration():
 #Loads CSV dataset and renders in HTML table using to_html().
 @app.route('/viewdata',methods=["GET","POST"])
 def viewdata():
-    dataset = pd.read_csv(r'D:\C drive download\Downloads\TK191129--STRESS DETECTION IN IT PROFESSIONALS USING MACHINE LEARNING\CODE\FROUNTEND\stress_detection_IT_professionals_dataset.csv')
+    dataset = pd.read_csv('Data set/stress_detection_IT_professionals_dataset.csv')
     dataset.to_html()
     print(dataset)
     print(dataset.head(2))
@@ -273,7 +273,7 @@ def preprocess():
     global x, y, x_train, x_test, y_train, y_test, df
 
     # Load and preprocess automatically
-    df = pd.read_csv(r'D:\C drive download\Downloads\TK191129--STRESS DETECTION IN IT PROFESSIONALS USING MACHINE LEARNING\CODE\FROUNTEND\stress_detection_IT_professionals_dataset.csv')
+    df = pd.read_csv('Data set/stress_detection_IT_professionals_dataset.csv')
 
     x = df.drop('Stress_Level', axis=1)
     y = df['Stress_Level']
@@ -375,6 +375,12 @@ def prediction():
             msg = "⚠️ Invalid input: Please make sure all fields are filled with valid numbers."
             return render_template("prediction.html", msg=msg)
 
+        try:
+            _ = x_train.shape
+        except NameError:
+            msg = "⚠️ Please run Preprocess first before predicting!"
+            return render_template("prediction.html", msg=msg)
+
         # ✅ Train model and predict
         model = RandomForestRegressor()
         model.fit(x_train, y_train)
@@ -382,6 +388,8 @@ def prediction():
         print(result)
 
         # 💾 Save result to database
+        conn = get_db_connection()
+        cur = conn.cursor()
         sql = """
         INSERT INTO stress_prediction 
         (email, heart_rate, skin_conductivity, hours_worked, emails_sent, meetings_attended, prediction, date)
@@ -390,6 +398,8 @@ def prediction():
         val = (email, f1, f2, f3, f4, f5, float(result[0]), date)
         cur.execute(sql, val)
         conn.commit()
+        cur.close()
+        conn.close()
 
         # 🧠 Result Message and Suggestions
         stress_value = float(result[0])
@@ -431,6 +441,9 @@ def dashboard():
     email = session.get('email')
     filter_type = request.args.get('filter', 'all')  # default = 'all'
 
+    conn = get_db_connection()
+    cur = conn.cursor()
+
     if filter_type == 'week':
         from datetime import datetime, timedelta
         today = datetime.today()
@@ -448,6 +461,8 @@ def dashboard():
         """, (email,))
 
     data = cur.fetchall()
+    cur.close()
+    conn.close()
     dates = [str(row[0]) for row in data]
     stress_levels = [row[1] for row in data]
 
