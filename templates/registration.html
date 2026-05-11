@@ -1,27 +1,39 @@
 {% extends 'base.html' %}
 {% block code %}
-<h1 style="color: aliceblue;">User Registration</h1>
-<form action="{{ url_for('registration') }}" method="post">
-    <div class="form-group">
-        <input type="text" name="username" class="form-control p-4" placeholder="Enter Your Name" required />
-    </div><br>
-    <div class="form-group">
-        <input type="email" name="useremail" class="form-control p-4" placeholder="Enter Your Email" required />
-    </div><br>
-    <div class="form-group">
-        <input type="password" name="userpassword" class="form-control p-4" placeholder="Enter Your Password" required />
-    </div><br>
-    <div class="form-group">
-        <input type="password" name="conpassword" class="form-control p-4" placeholder="Confirm Your Password" required />
-    </div><br>
-    <div class="form-group">
-        <input type="number" name="Age" class="form-control p-4" placeholder="Age" required />
-    </div><br>
-    <div class="form-group">
-        <input type="tel" name="contact" class="form-control p-4" placeholder="Enter Your Contact" required />
-    </div><br>
-    <div>
-        <button type="submit" class="btn btn-primary btn-block p-2">Sign Up</button>
-    </div><br>
-</form>
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-10">
+        <div class="reg-form-wrap p-5" style="background: rgba(0,0,0,0.6); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-top: 20px;">
+            <h1 class="text-center mb-4" style="color: #ffffff;">User Registration</h1>
+            <form action="{{ url_for('registration') }}" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <input type="text" name="username" class="form-control" style="height: 45px; border-radius: 8px;" placeholder="Name" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="email" name="useremail" class="form-control" style="height: 45px; border-radius: 8px;" placeholder="Email" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <input type="password" name="userpassword" class="form-control" style="height: 45px; border-radius: 8px;" placeholder="Password" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="password" name="conpassword" class="form-control" style="height: 45px; border-radius: 8px;" placeholder="Confirm Password" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <input type="number" name="Age" class="form-control" style="height: 45px; border-radius: 8px;" placeholder="Age" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="tel" name="contact" class="form-control" style="height: 45px; border-radius: 8px;" placeholder="Contact Number" required />
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary btn-block" style="height: 50px; border-radius: 10px; font-weight: bold;">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
