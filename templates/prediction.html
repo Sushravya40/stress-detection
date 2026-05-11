@@ -121,7 +121,8 @@
       <form action="/prediction" method="post">
         <div class="row g-3">
           <div class="col-md-12">
-            <input type="date" name="date" class="form-control" required placeholder="Date">
+            <label for="date" class="form-label ms-1" style="color: #666; font-size: 0.85rem;">Prediction Date</label>
+            <input type="date" id="date" name="date" class="form-control" required style="color: #333;">
           </div>
           <div class="col-md-6">
             <input type="number" step="any" name="Heart_Rate" class="form-control" placeholder="Heart Rate">
