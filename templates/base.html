@@ -28,120 +28,80 @@
 			background-attachment: fixed;
 		}
 		
-		/* --- Premium Header Styling --- */
+		/* --- Simple Nav Styling (Old Version Style) --- */
 		.top-header-area {
-			background: rgba(5, 25, 34, 0.8) !important;
-			backdrop-filter: blur(10px);
-			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-			padding: 15px 0 !important;
-			transition: all 0.3s ease;
+			position: absolute;
+			z-index: 999;
+			width: 100%;
+			padding: 25px 0;
 		}
 		
-		.is-sticky .top-header-area {
-			background: rgba(5, 25, 34, 0.95) !important;
-			padding: 10px 0 !important;
-		}
-
 		nav.main-menu ul li a {
 			color: #ffffff !important;
-			font-family: 'Poppins', sans-serif;
+			text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 			font-weight: 600;
-			text-transform: uppercase;
-			font-size: 14px;
-			letter-spacing: 1px;
 			padding: 15px 20px !important;
-			transition: color 0.3s ease;
 		}
-
-		nav.main-menu ul li a:hover,
-		nav.main-menu ul li.active a {
+		
+		nav.main-menu ul li a:hover {
 			color: #ff9800 !important;
 		}
 
-		.admin-login-btn {
-			background: #ff9800 !important;
-			color: #fff !important;
-			border: none !important;
-			border-radius: 25px !important;
-			padding: 8px 20px !important;
-			font-weight: 700 !important;
-			text-shadow: none !important;
-		}
-
-		/* --- Mobile Menu (MeanMenu) Fixes --- */
-		.mobile-menu {
-			display: none;
-		}
-
+		/* --- Mobile Menu Fixes --- */
 		@media only screen and (max-width: 991px) {
 			.main-menu {
 				display: none !important;
 			}
-			.mobile-menu {
-				display: block;
-			}
 			.mean-container .mean-bar {
 				background: transparent !important;
-				min-height: 0 !important;
 				padding: 0 !important;
+				min-height: 0 !important;
+				z-index: 9999;
 			}
 			.mean-container a.meanmenu-reveal {
-				width: 35px;
-				height: 30px;
-				padding: 8px !important;
-				position: absolute;
-				right: 20px;
-				top: -30px !important;
 				background: #ff9800 !important;
+				color: #fff !important;
+				padding: 12px !important;
+				top: -30px !important;
+				right: 20px !important;
 				border-radius: 5px;
-				display: flex !important;
-				flex-direction: column;
-				justify-content: space-between;
-			}
-			.mean-container a.meanmenu-reveal span {
-				background: #fff !important;
-				height: 3px !important;
-				margin-top: 0 !important;
 			}
 			.mean-container .mean-nav {
-				background: rgba(5, 25, 34, 0.98) !important;
+				background: rgba(0,0,0,0.9) !important;
 				margin-top: 50px !important;
 			}
 		}
 
-		/* --- Hero Section Fixes --- */
+		/* --- Centered Hero Section --- */
 		.hero-area {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			min-height: 100vh;
-			padding: 80px 20px;
+			padding: 100px 0;
 		}
-		
-		.alert {
-			z-index: 10000 !important;
+		.hero-content-wrapper {
+			width: 100%;
 		}
 	</style>
 </head>
 <body>
 	<div class="top-header-area" id="sticker">
 		<div class="container">
-			<div class="row align-items-center">
+			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap" style="position: relative;">
-						<!-- Desktop Menu -->
+					<div class="main-menu-wrap">
 						<nav class="main-menu">
-							<ul class="d-flex justify-content-center align-items-center m-0 p-0" style="list-style: none;">
+							<ul>
 								<li><a href="/">Home</a></li>
 								<li><a href="/about">About</a></li>
 								<li><a href="/login">Log In</a></li>
 								<li><a href="/registration">Register</a></li>
-								<li class="ml-lg-4">
-									<a href="/admin_login" class="admin-login-btn">🔐 Admin Login</a>
+								<li>
+									<a href="/admin_login" class="btn btn-outline-warning ml-3" style="text-shadow: none;">🔐 Admin Login</a>
 								</li>
 							</ul>
 						</nav>
-						<!-- Mobile Menu Container -->
 						<div class="mobile-menu"></div>
 					</div>
 				</div>
@@ -178,12 +138,10 @@
 	<script src="static/js/main.js"></script>
 	<script>
 		$(document).ready(function() {
-			// Re-init MeanMenu to be safe
 			$('.main-menu').meanmenu({
 				meanMenuContainer: '.mobile-menu',
 				meanScreenWidth: "991"
 			});
-			
 			setTimeout(() => {
 				$('.alert').fadeOut();
 			}, 3000);
