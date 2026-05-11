@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Responsive Bootstrap4 Shop Template">
+	<meta name="description" content="Stress Detection System">
 
 	<title>Stress Detection</title>
 
@@ -25,99 +25,123 @@
 			background-image: url('/static/img/worklife-balance.png.png');
 			background-size: cover;
 			background-repeat: no-repeat;
-		}
-		.alert {
-			font-size: 16px;
-			padding: 12px 20px;
-			border-radius: 10px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-			margin-top: 20px;
-		}
-		/* Nav Link Visibility */
-		nav.main-menu ul li a {
-			color: #ffffff !important;
-			text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-			font-weight: 600;
-		}
-		nav.main-menu ul li a:hover {
-			color: #ff9800 !important;
+			background-attachment: fixed;
 		}
 		
-		/* Mobile Menu Fixes */
-		.mobile-menu {
-			position: relative;
-			z-index: 9999;
+		/* --- Premium Header Styling --- */
+		.top-header-area {
+			background: rgba(5, 25, 34, 0.8) !important;
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			padding: 15px 0 !important;
+			transition: all 0.3s ease;
 		}
-		.mean-container .mean-bar {
-			background-color: transparent !important;
-			padding: 0 !important;
-			min-height: 0 !important;
+		
+		.is-sticky .top-header-area {
+			background: rgba(5, 25, 34, 0.95) !important;
+			padding: 10px 0 !important;
 		}
-		.mean-container a.meanmenu-reveal {
-			padding: 15px !important;
+
+		nav.main-menu ul li a {
+			color: #ffffff !important;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			text-transform: uppercase;
+			font-size: 14px;
+			letter-spacing: 1px;
+			padding: 15px 20px !important;
+			transition: color 0.3s ease;
+		}
+
+		nav.main-menu ul li a:hover,
+		nav.main-menu ul li.active a {
+			color: #ff9800 !important;
+		}
+
+		.admin-login-btn {
 			background: #ff9800 !important;
 			color: #fff !important;
-			border-radius: 5px;
-			top: -40px !important;
-			display: block !important;
-			position: absolute !important;
-			right: 20px !important;
+			border: none !important;
+			border-radius: 25px !important;
+			padding: 8px 20px !important;
+			font-weight: 700 !important;
+			text-shadow: none !important;
 		}
-		.mean-container a.meanmenu-reveal span {
-			background-color: #fff !important;
+
+		/* --- Mobile Menu (MeanMenu) Fixes --- */
+		.mobile-menu {
+			display: none;
 		}
+
 		@media only screen and (max-width: 991px) {
-			.top-header-area {
-				padding: 40px 0;
-			}
 			.main-menu {
 				display: none !important;
 			}
+			.mobile-menu {
+				display: block;
+			}
+			.mean-container .mean-bar {
+				background: transparent !important;
+				min-height: 0 !important;
+				padding: 0 !important;
+			}
+			.mean-container a.meanmenu-reveal {
+				width: 35px;
+				height: 30px;
+				padding: 8px !important;
+				position: absolute;
+				right: 20px;
+				top: -30px !important;
+				background: #ff9800 !important;
+				border-radius: 5px;
+				display: flex !important;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+			.mean-container a.meanmenu-reveal span {
+				background: #fff !important;
+				height: 3px !important;
+				margin-top: 0 !important;
+			}
+			.mean-container .mean-nav {
+				background: rgba(5, 25, 34, 0.98) !important;
+				margin-top: 50px !important;
+			}
 		}
 
-		/* Hero Section Responsive */
+		/* --- Hero Section Fixes --- */
 		.hero-area {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			min-height: 100vh;
-			padding: 100px 0;
+			padding: 80px 20px;
 		}
-		.hero-content-wrapper {
-			width: 100%;
-		}
-		@media only screen and (max-width: 991px) {
-			.hero-area {
-				padding-top: 120px;
-				text-align: center;
-			}
-		}
-		@media only screen and (max-width: 767px) {
-			.hero-area {
-				padding-top: 100px;
-				padding-bottom: 50px;
-			}
+		
+		.alert {
+			z-index: 10000 !important;
 		}
 	</style>
 </head>
 <body>
 	<div class="top-header-area" id="sticker">
 		<div class="container">
-			<div class="row">
+			<div class="row align-items-center">
 				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
+					<div class="main-menu-wrap" style="position: relative;">
+						<!-- Desktop Menu -->
 						<nav class="main-menu">
-							<ul>
+							<ul class="d-flex justify-content-center align-items-center m-0 p-0" style="list-style: none;">
 								<li><a href="/">Home</a></li>
 								<li><a href="/about">About</a></li>
-								<li class="active"><a href="/login">Log In</a></li>
+								<li><a href="/login">Log In</a></li>
 								<li><a href="/registration">Register</a></li>
-								<li>
-									<a href="/admin_login" class="btn btn-outline-warning ml-3">🔐 Admin Login</a>
+								<li class="ml-lg-4">
+									<a href="/admin_login" class="admin-login-btn">🔐 Admin Login</a>
 								</li>
 							</ul>
 						</nav>
-						<!-- mobile menu container -->
+						<!-- Mobile Menu Container -->
 						<div class="mobile-menu"></div>
 					</div>
 				</div>
@@ -139,12 +163,10 @@
 	  {% endif %}
 	{% endwith %}
 
-	<div class="hero-area hero-bg" style="background-image:url('/static/img/worklife-balance.png.png');">
+	<div class="hero-area">
 		<div class="container">
-			<div class="col-lg-7">
-				<div class="hero-content-wrapper mb-4">
-					{% block code %}{% endblock %}
-				</div>
+			<div class="hero-content-wrapper">
+				{% block code %}{% endblock %}
 			</div>
 		</div>
 	</div>
@@ -155,13 +177,17 @@
 	<script src="static/js/sticker.js"></script>
 	<script src="static/js/main.js"></script>
 	<script>
-		setTimeout(() => {
-			const alert = document.querySelector('.alert');
-			if (alert) {
-				alert.classList.remove('show');
-				alert.classList.add('fade');
-			}
-		}, 3000);
+		$(document).ready(function() {
+			// Re-init MeanMenu to be safe
+			$('.main-menu').meanmenu({
+				meanMenuContainer: '.mobile-menu',
+				meanScreenWidth: "991"
+			});
+			
+			setTimeout(() => {
+				$('.alert').fadeOut();
+			}, 3000);
+		});
 	</script>
 </body>
 </html>
