@@ -76,22 +76,25 @@
 		}
 
 		/* Hero Section Responsive */
+		.hero-area {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			padding: 100px 0;
+		}
 		.hero-content-wrapper {
-			padding-top: 184px;
+			width: 100%;
 		}
 		@media only screen and (max-width: 991px) {
-			.hero-content-wrapper {
+			.hero-area {
 				padding-top: 120px;
 				text-align: center;
 			}
 		}
 		@media only screen and (max-width: 767px) {
-			.hero-content-wrapper {
-				padding-top: 100px;
-			}
 			.hero-area {
-				height: auto;
-				min-height: 100vh;
+				padding-top: 100px;
 				padding-bottom: 50px;
 			}
 		}
