@@ -2,17 +2,17 @@
 {% block code %}
 <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
-        <div class="login-form-wrap p-5" style="background: rgba(0,0,0,0.6); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-            <h1 class="text-center mb-4" style="color: #ffffff;">User Login</h1>
+        <div class="login-form-wrap p-5" style="background: rgba(255,255,255,0.1); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1);">
+            <h1 class="text-center mb-4" style="color: #ffffff; text-shadow: 1px 1px 5px rgba(0,0,0,0.5);">User Login</h1>
             <form action="{{ url_for('login') }}" method="post">
                 <div class="form-group">
-                    <input type="email" name="useremail" class="form-control" style="height: 50px; border-radius: 10px;" placeholder="Enter Your Email" required />
+                    <input type="email" name="useremail" class="form-control" style="height: 50px; border-radius: 10px; background: rgba(255,255,255,0.9);" placeholder="Enter Your Email" required />
                 </div><br>
                 <div class="form-group">
-                    <input type="password" name="userpassword" class="form-control" style="height: 50px; border-radius: 10px;" placeholder="Enter Your Password" required />
+                    <input type="password" name="userpassword" class="form-control" style="height: 50px; border-radius: 10px; background: rgba(255,255,255,0.9);" placeholder="Enter Your Password" required />
                 </div><br>
                 <div>
-                    <button type="submit" class="btn btn-primary btn-block" style="height: 50px; border-radius: 10px; font-weight: bold;">Login</button>
+                    <button type="submit" class="btn btn-primary btn-block" style="height: 50px; border-radius: 10px; font-weight: bold; background: #007bff; border: none; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">Login</button>
                 </div>
             </form>
         </div>
