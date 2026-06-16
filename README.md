@@ -61,3 +61,17 @@ To access the admin panel and manage allowed corporate email domains:
 * **Email:** admin@example.com
 * **Password:** admin123
 *(Note: Change these credentials in `app1.py` before deploying to production)*
+
+---
+
+## 📸 Screenshots
+
+*(Add your screenshots here. You can drag and drop images directly into GitHub to upload them!)*
+
+---
+
+## 🔮 Future Enhancements
+
+* **Wearable Integration:** Direct sync with smartwatches for live heart rate and skin conductivity data.
+* **AI Chatbot:** A companion chatbot to offer immediate cognitive behavioral therapy exercises.
+* **Organization Analytics:** Aggregated anonymous reports for HR departments to monitor overall company health.
